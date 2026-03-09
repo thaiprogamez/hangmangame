@@ -19,14 +19,20 @@ void hangmandraw(int incorrectguess) {
         printf("     |\n");
     }
     if (incorrectguess >= 3) {
+        printf(" |   |\n");
+    } 
+    if (incorrectguess >= 4) {
         printf("/|\\  |\n");
     } else {
         printf("     |\n");
     }
-    if (incorrectguess >= 4) {
+    if (incorrectguess >= 5) {
         printf(" |   |\n");
     } 
-    if (incorrectguess >=5) {
+    if (incorrectguess >= 6) {
+        printf(" |   |\n");
+    } 
+    if (incorrectguess >=7) {
         printf("/|\\  |\n");  
     } else {
         printf("     |\n");
@@ -75,6 +81,7 @@ int main() {
         "image signalling processor",
         "modem",
         "router",
+        "semiconductor",
     };
     int totalword=sizeof(wordlist)/sizeof(wordlist[0]);
     srand(time(NULL));
@@ -99,7 +106,7 @@ int main() {
     char guess;
     int incorrectguess = 0;
     // Fix 3: Changed max incorrect guesses from 4 to 6 to match hangman drawing
-    int maxincorrectguess = 5;
+    int maxincorrectguess = 7;
     int gameover = 0;
     int haswon = 0;  // Track if player has won
     
@@ -107,6 +114,7 @@ int main() {
     while (incorrectguess < maxincorrectguess && !gameover) {
         // Display current state
         hangmandraw(incorrectguess);
+        printf("Welcome to the hangman game! In this game, you have to guess the correct word related to technological terms. \nYou have a limited amount of lives. If you can't guess the correct word, you lose the game. \n");
         printf("The hidden word is: %s\n", hiddenword);
         printf("Incorrect guesses: %d/%d\n", incorrectguess, maxincorrectguess);
         printf("Enter your guess: ");

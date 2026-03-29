@@ -87,43 +87,39 @@ int main() {
     };
     int totalword=sizeof(wordlist)/sizeof(wordlist[0]);
     srand(time(NULL));
+
+    int totalround=3;
+    int currentscore=0;
+    printf("===============================\n");
+    printf("Welcome to the Ultimate Hangman Challenge!\n In this game, you have to win three rounds to become the champion! \n Failing to win a round will result in losing the game.\n");
+    printf("===============================\n");
+
+    for (int round=1; round <=totalround; round++) {
+    printf("\n>>> Round %d of %d <<<\n", round, totalround);
+    
     int randomindex=rand() % totalword;
     const char *secretword = wordlist[randomindex];
     int wordlength = strlen(secretword);
     
-    // Fix 1: Allocate enough space for hidden word (use wordlength + 1)
-    // Changed from fixed 20 to wordlength + 1 to handle longest word
-    char hiddenword[30];  // Fixed size array - large enough for longest word
-    
-    // Fix 2: Initialize hidden word display - reveal spaces automatically
+    char hiddenword[100];
     for (int i = 0; i < wordlength; i++) {
-        if (secretword[i] == ' ') {
-            hiddenword[i] = ' ';  // Show spaces automatically
-        } else {
-            hiddenword[i] = '_';
-        }
+        hiddenword[i] = (secretword[i] == ' ') ? ' ' : '_';
     }
     hiddenword[wordlength] = '\0';
     
     char guess;
     int incorrectguess = 0;
-    // Fix 3: Changed max incorrect guesses from 4 to 6 to match hangman drawing
-    int maxincorrectguess = 7;
-    int gameover = 0;
-    int haswon = 0;  // Track if player has won
+    int maxincorrectguess = 7;  
+    int haswon = 0;
     
-    // 4. Game loop
-    while (incorrectguess < maxincorrectguess && !gameover) {
-        // Display current state
+    while (incorrectguess < maxincorrectguess) {
         hangmandraw(incorrectguess);
-        printf("Welcome to the hangman game! In this game, you have to guess the correct word related to technological terms. \nYou have a limited amount of lives. If you can't guess the correct word, you lose the game. \n");
         printf("The hidden word is: %s\n", hiddenword);
         printf("Incorrect guesses: %d/%d\n", incorrectguess, maxincorrectguess);
         printf("Enter your guess: ");
         scanf(" %c", &guess);
         guess = tolower(guess);
         
-        // Check if letter is in word
         int found = 0;
         for (int i = 0; i < wordlength; i++) {
             if (secretword[i] == guess) {
@@ -132,7 +128,6 @@ int main() {
             }
         }
         
-        // Update display or reduce lives
         if (!found) {
             incorrectguess++;
             printf("Sorry, '%c' is not in the word!\n", guess);
@@ -140,32 +135,39 @@ int main() {
             printf("Good job! '%c' is in the word!\n", guess);
         }
         
-        // Check win condition - all non-space letters must be revealed
+        // Check if won
         haswon = 1;
         for (int i = 0; i < wordlength; i++) {
             if (secretword[i] != ' ' && hiddenword[i] == '_') {
-                haswon = 0;        // Still has hidden letters
+                haswon = 0;
                 break;
             }
         }
-
-        if (haswon) {
-            gameover = 1;
-        }
+        
+        if (haswon) break;  
     }
-    
-    // 5. End game message - Display final hangman
+
     hangmandraw(incorrectguess);
     
-    // Fix 4: Use haswon variable instead of strcmp for win check
     if (haswon) {
         printf("Word: %s\n", hiddenword);
         printf("Congratulations, you won this round!\n");
+        currentscore++;
     } else {
         printf("You lost the game!\n");
         printf("The word was: %s\n", secretword);
+        printf("Final Score: %d/%d rounds cleared.\n", currentscore, totalround);
+        return 0;  
     }
+}
+
+
+    printf("\n=========================================\n");
+    printf("🏆 CONGRATULATIONS! YOU ARE THE CHAMPION! 🏆\n");
+    printf("You cleared all %d rounds!\n", totalround);
+    printf("=========================================\n");
+
+
     
-    // 6. Replay option (could be added here)
     return 0;
 }

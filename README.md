@@ -1,4 +1,4 @@
-**>>Welcome to the Ultimate Hangman Game!<<**
+**Welcome to the Ultimate Hangman Game!**
 
 In this game, you are required to guess a word that directly relates to the current technological landscape, for as many consecutive rounds as possible. The game may look simple, but watch out - there may be dangerous traps you need to avoid when guessing a word - one wrong move, and the hangman is stuck at stake! 
 
